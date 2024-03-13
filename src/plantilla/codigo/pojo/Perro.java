@@ -7,13 +7,13 @@ import java.util.Objects;
  */
 public class Perro extends Mamifero{
 
-	private boolean vacunado = false;
+	private String vacunado = null;
 
-	public boolean isVacunado() {
+	public String isVacunado() {
 		return vacunado;
 	}
 
-	public void setVacunado(boolean vacunado) {
+	public void setVacunado(String vacunado) {
 		this.vacunado = vacunado;
 	}
 

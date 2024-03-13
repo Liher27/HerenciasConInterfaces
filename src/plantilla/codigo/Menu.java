@@ -68,7 +68,9 @@ public class Menu {
 		System.out.println("---- 1 - Mostrar mascotas");
 		System.out.println("---- 2 - Mostrar mascotas por tipo");
 		System.out.println("---- 3 - Mostrar mascotas por id");
-		System.out.println("---- 4 - Anadir, eliminar o modificar mascota");
+		System.out.println("---- 4 - Anadir mascota");
+		System.out.println("---- 5 - Borrar mascota");
+		System.out.println("---- 6 - Modificar mascota");
 		System.out.println("--------------");
 	}
 
@@ -89,6 +91,12 @@ public class Menu {
 			break;
 		case 4:
 			mostrarMascotasPorTipoParaAñadir();
+			break;
+		case 5:
+			mostrarMascotasPorTipoParaBorrar();
+			break;
+		case 6:
+			mostrarMascotasPorTipoParaModificar();
 			break;
 		default:
 			System.out.println("Esta opcion no deberia salir...");
@@ -116,10 +124,12 @@ public class Menu {
 	}
 
 	private void mostrarPerro(Perro perro) {
+		System.out.println("");
 		System.out.println("Id: " + perro.getId());
 		System.out.println("Nombre: " + perro.getNombre());
 		System.out.println("Raza: " + perro.getRaza());
 		System.out.println("Vacunado?: " + perro.isVacunado());
+		System.out.println("");
 	}
 
 	private void mostrarGatos(List<Gato> gatos) {
@@ -129,10 +139,12 @@ public class Menu {
 	}
 
 	private void mostrarGato(Gato gato) {
+		System.out.println("");
 		System.out.println("Id: " + gato.getId());
 		System.out.println("Nombre: " + gato.getNombre());
 		System.out.println("Raza: " + gato.getRaza());
 		System.out.println("Color: " + gato.getColor());
+		System.out.println("");
 	}
 
 	private void mostrarTortugas(List<Tortuga> tortugas) {
@@ -142,9 +154,11 @@ public class Menu {
 	}
 
 	private void mostrarTortuga(Tortuga tortuga) {
+		System.out.println("");
 		System.out.println("Id: " + tortuga.getId());
 		System.out.println("Especie: " + tortuga.getEspecie());
 		System.out.println("Agua Dulce?: " + tortuga.isAguaDulce());
+		System.out.println("");
 	}
 
 	private void mostrarCocodrilos(List<Cocodrilo> cocodrilos) {
@@ -154,11 +168,12 @@ public class Menu {
 	}
 
 	private void mostrarCocodrilo(Cocodrilo cocodrilo) {
+		System.out.println("");
 		System.out.println("Id: " + cocodrilo.getId());
 		System.out.println("Especie: " + cocodrilo.getEspecie());
 		System.out.println("Agua Dulce?: " + cocodrilo.isAguaDulce());
 		System.out.println("Numero de dientes: " + cocodrilo.getNumeroDientes());
-
+		System.out.println("");
 	}
 
 	// --------- OPCION 2 - Mostrar mascotas por tipo --//
@@ -248,7 +263,7 @@ public class Menu {
 			System.out.println("No se han encontrado cocodrilos.");
 	}
 
-	// --------- OPCION 4,5 y 6 - Añadir, Borrar y modificar Animales --//
+	// --------- OPCION 4 - Añadir Animales --//
 
 	private void mostrarMascotasPorTipoParaAñadir() {
 		int opcion = 0;
@@ -277,12 +292,12 @@ public class Menu {
 
 	private void escribirMenuPorTipoParaAñadir() {
 		System.out.println(" ");
-		System.out.println("---- MENU ----");
+		System.out.println("---- MENU AÑADIR MASCOTA----");
 		System.out.println("---- 0 - Volver ");
 		System.out.println("---- 1 - Añadir un perro ");
 		System.out.println("---- 2 - Añadir un gato");
 		System.out.println("---- 3 - Añadir una tortuga");
-		System.out.println("---- 3 - Añadir un cocodrilo");
+		System.out.println("---- 4 - Añadir un cocodrilo");
 		System.out.println("--------------");
 	}
 
@@ -290,25 +305,174 @@ public class Menu {
 		switch (opcion) {
 		case 1:
 			System.out.println("---------");
-			List<Perro> perros = gestorPerros.anadirAnimal();
+			gestorPerros.anadirAnimal();
 			System.out.println("Perro anadido!");
 			break;
 		case 2:
 			System.out.println("---------");
-			List<Gato> gatos = gestorGatos.anadirAnimal();
+			gestorGatos.anadirAnimal();
 			System.out.println("Gato anadido!");
 			break;
 		case 3:
 			System.out.println("---------");
-			List<Tortuga> tortugas = gestorTortugas.anadirAnimal();
+			gestorTortugas.anadirAnimal();
 			System.out.println("Perro anadido!");
 			break;
 		case 4:
 			System.out.println("---------");
-			List<Cocodrilo> Cocodrilos = gestorCocodrilos.anadirAnimal();
+			gestorCocodrilos.anadirAnimal();
 			System.out.println("Cocodrilo anadido!");
 			break;
 		}
 	}
 
+	// --------- OPCION 5 - Borrar Animales --//
+
+	private void mostrarMascotasPorTipoParaBorrar() {
+		int opcion = 0;
+		do {
+			opcion = opcionMenuPorTipoParaBorrar();
+			if (opcion != 0) {
+				ejecutarOpcionMenuPorTipoParaBorrar(opcion);
+			}
+		} while (opcion != 0);
+	}
+
+	private int opcionMenuPorTipoParaBorrar() {
+		int ret = 0;
+		do {
+			try {
+				escribirMenuPorTipoParaBorrar();
+				System.out.print("Elija una opcion: ");
+				ret = teclado.nextInt();
+			} catch (Exception e) {
+				teclado.nextLine();
+				ret = -1;
+			}
+		} while ((ret < 0) && (ret > 3));
+		return ret;
+	}
+
+	private void escribirMenuPorTipoParaBorrar() {
+		System.out.println(" ");
+		System.out.println("---- MENU BORRAR MASCOTA----");
+		System.out.println("---- 0 - Volver ");
+		System.out.println("---- 1 - Borrar un perro ");
+		System.out.println("---- 2 - Borrar un gato");
+		System.out.println("---- 3 - Borrar una tortuga");
+		System.out.println("---- 3 - Borrar un cocodrilo");
+		System.out.println("--------------");
+	}
+
+	private void ejecutarOpcionMenuPorTipoParaBorrar(int opcion) {
+		switch (opcion) {
+		case 1:
+			System.out.println("---------");
+			System.out.println("elige una id del perro: ");
+			int idPerro = teclado.nextInt();
+
+			gestorPerros.borrarAnimal(idPerro);
+			System.out.println("Perro borrado!");
+			break;
+		case 2:
+			System.out.println("---------");
+			System.out.println("elige una id del gato: ");
+			int idGato = teclado.nextInt();
+
+			gestorGatos.borrarAnimal(idGato);
+			System.out.println("Gato borrado!");
+			break;
+		case 3:
+			System.out.println("---------");
+			System.out.println("elige una id del perro: ");
+			int idTortuga = teclado.nextInt();
+
+			gestorTortugas.borrarAnimal(idTortuga);
+			System.out.println("Perro borrado!");
+			break;
+		case 4:
+			System.out.println("---------");
+			System.out.println("elige una id del cocodrilo: ");
+			int idCococrilo = teclado.nextInt();
+
+			gestorCocodrilos.borrarAnimal(idCococrilo);
+			System.out.println("Cocodrilo borrado!");
+			break;
+		}
+	}
+
+	// --------- OPCION 6 - Modificar Animales --//
+
+	private void mostrarMascotasPorTipoParaModificar() {
+		int opcion = 0;
+		do {
+			opcion = opcionMenuPorTipoParaModificar();
+			if (opcion != 0) {
+				ejecutarOpcionMenuPorTipoParaModificar(opcion);
+			}
+		} while (opcion != 0);
+	}
+
+	private int opcionMenuPorTipoParaModificar() {
+		int ret = 0;
+		do {
+			try {
+				escribirMenuPorTipoParaModificar();
+				System.out.print("Elija una opcion: ");
+				ret = teclado.nextInt();
+			} catch (Exception e) {
+				teclado.nextLine();
+				ret = -1;
+			}
+		} while ((ret < 0) && (ret > 3));
+		return ret;
+	}
+
+	private void escribirMenuPorTipoParaModificar() {
+		System.out.println(" ");
+		System.out.println("---- MENU MODIFICAR MASCOTA----");
+		System.out.println("---- 0 - Volver ");
+		System.out.println("---- 1 - Modificar un perro ");
+		System.out.println("---- 2 - Modificar un gato");
+		System.out.println("---- 3 - Modificar una tortuga");
+		System.out.println("---- 3 - Modificar un cocodrilo");
+		System.out.println("--------------");
+	}
+
+	private void ejecutarOpcionMenuPorTipoParaModificar(int opcion) {
+		switch (opcion) {
+		case 1:
+			System.out.println("---------");
+			System.out.println("elige una id del perro: ");
+			int idPerro = teclado.nextInt();
+
+			gestorPerros.modificarAnimal(idPerro);
+			System.out.println("Perro modificado!");
+			break;
+		case 2:
+			System.out.println("---------");
+			System.out.println("elige una id del gato: ");
+			int idGato = teclado.nextInt();
+
+			gestorGatos.modificarAnimal(idGato);
+			System.out.println("Gato modificado!");
+			break;
+		case 3:
+			System.out.println("---------");
+			System.out.println("elige una id del perro: ");
+			int idTortuga = teclado.nextInt();
+
+			gestorTortugas.modificarAnimal(idTortuga);
+			System.out.println("Perro modificado!");
+			break;
+		case 4:
+			System.out.println("---------");
+			System.out.println("elige una id del cocodrilo: ");
+			int idCococrilo = teclado.nextInt();
+
+			gestorCocodrilos.modificarAnimal(idCococrilo);
+			System.out.println("Cocodrilo modificado!");
+			break;
+		}
+	}
 }

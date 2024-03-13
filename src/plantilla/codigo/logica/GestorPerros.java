@@ -6,15 +6,16 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Scanner;
 
-import bbdd.Utils;
 import plantilla.codigo.pojo.Perro;
 import plantilla.codigo.utils.DBUtils;
 
-public class GestorPerros implements GestorInterfaz <Perro>{
+public class GestorPerros implements GestorInterfaz<Perro> {
+
+	Scanner teclado = null;
 
 	public List<Perro> obtenerTodosLosAnimales() {
 		List<Perro> ret = null;
@@ -40,7 +41,7 @@ public class GestorPerros implements GestorInterfaz <Perro>{
 				perro.setId(resultSet.getInt("id"));
 				perro.setNombre(resultSet.getString("nombre"));
 				perro.setRaza(resultSet.getString("raza"));
-				perro.setVacunado(resultSet.getBoolean("vacunado"));
+				perro.setVacunado(resultSet.getString("vacunado"));
 
 				ret.add(perro);
 			}
@@ -96,7 +97,7 @@ public class GestorPerros implements GestorInterfaz <Perro>{
 				perro.setId(resultSet.getInt("id"));
 				perro.setNombre(resultSet.getString("nombre"));
 				perro.setRaza(resultSet.getString("raza"));
-				perro.setVacunado(resultSet.getBoolean("vacunado"));
+				perro.setVacunado(resultSet.getString("vacunado"));
 
 				ret.add(perro);
 			}
@@ -127,60 +128,82 @@ public class GestorPerros implements GestorInterfaz <Perro>{
 		return ret;
 	}
 
-	@Override
-	public List<Perro> anadirAnimal() {
-		String getInputNumSeries = ;
-		String getInputMarca = ;
-		String getInputMemoria = memoria;
-		String getInputModelo = modelo;
-		String getInputFunciona = funciona;
-		
-		Connection connection = null;
-		PreparedStatement preparedStatement = null;
+	public boolean anadirAnimal() {
 
-		try {
-			Class.forName(DBUtils.DRIVER);
+		teclado = new Scanner(System.in);
 
-			connection = DriverManager.getConnection(DBUtils.URL, DBUtils.USER, DBUtils.PASS);
+		System.out.println("Introduce el id del nuevo perro: ");
+		int getInputDogId = teclado.nextInt();
 
-			String sql = "INSERT INTO ordenador (`NumSerie`, `marca`, `fechaCompra`, `disco`, `memoria`, `modelo`, `funcionaElOrdenador`)"
-					+ " VALUES (?,?,?,?,?,?,?);";
-			preparedStatement = connection.prepareStatement(sql);
+		System.out.println("Introduce el nombre del nuevo perro: ");
+		String getInputDogName = teclado.next();
 
-			preparedStatement = connection.prepareStatement(sql);
-			preparedStatement.setString(1, getInputNumSeries);
-			preparedStatement.setString(2, getInputMarca);
-			preparedStatement.setDate(3, sqlDate);
-			preparedStatement.setString(4, getInputDisco);
-			preparedStatement.setString(5, getInputMemoria);
-			preparedStatement.setString(6, getInputModelo);
-			preparedStatement.setString(7, getInputFunciona);
+		System.out.println("Introduce la raza del nuevo perro: ");
+		String getInputDogRace = teclado.next();
 
-			int i = preparedStatement.executeUpdate();
+		System.out.println("Introduce si el nuevo perro esta vacunado (si o no): ");
+		String getInputDogVaccinated = teclado.next();
 
-			if (i > 0) {
-				return true;
+		if (getInputDogVaccinated.equalsIgnoreCase("Si") || getInputDogVaccinated.equalsIgnoreCase("No")) {
+			Connection connection = null;
+			PreparedStatement preparedStatement = null;
+
+			try {
+				Class.forName(DBUtils.DRIVER);
+
+				connection = DriverManager.getConnection(DBUtils.URL, DBUtils.USER, DBUtils.PASS);
+
+				String sql = "INSERT INTO t_perros (`id`, `nombre`, `raza`, `vacunado`)" + " VALUES (?,?,?,?);";
+				preparedStatement = connection.prepareStatement(sql);
+
+				preparedStatement = connection.prepareStatement(sql);
+				preparedStatement.setInt(1, getInputDogId);
+				preparedStatement.setString(2, getInputDogName);
+				preparedStatement.setString(3, getInputDogRace);
+				preparedStatement.setString(4, getInputDogVaccinated);
+
+				int i = preparedStatement.executeUpdate();
+
+				if (i > 0) {
+					return true;
+				}
+
+			} catch (SQLException | ClassNotFoundException throwables) {
+				throwables.printStackTrace();
+
+				DBUtils reto3Utils = new DBUtils();
+				reto3Utils.release(connection, preparedStatement, null);
 			}
 
-		} catch (SQLException | ClassNotFoundException throwables) {
-			throwables.printStackTrace();
-
-			DBUtils reto3Utils = new DBUtils();
-			reto3Utils.release(connection, preparedStatement, null);
+			return false;
+		} else {
+			System.out.println(
+					"No has insertado una opcion correcta a la hora de vacunar, vuelve a intentar (Solo Si o No.");
 		}
-
 		return false;
 	}
 
 	@Override
-	public List<Perro> borrarAnimal(int id) {
-		// TODO Auto-generated method stub
-		return null;
+	public void borrarAnimal(int id) {
+		try {
+			Class.forName(DBUtils.DRIVER);
+
+			Connection connection = DriverManager.getConnection(DBUtils.URL, DBUtils.USER, DBUtils.PASS);
+
+			Statement statement = connection.createStatement();
+
+			String sql = "DELETE FROM t_perros WHERE id = '" + id + "'";
+			statement.executeUpdate(sql);
+
+		} catch (ClassNotFoundException e) {
+			System.out.println("Ha dado fallo -> " + e.getMessage());
+		} catch (SQLException e) {
+			System.out.println("Malformacion sqlazo -> " + e.getMessage());
+		}
 	}
 
 	@Override
-	public List<Perro> modificarAnimal(int id) {
-		// TODO Auto-generated method stub
-		return null;
+	public boolean modificarAnimal(int id) {
+		return false;
 	}
 }

@@ -8,10 +8,10 @@ public interface GestorInterfaz <T>{
 	
 	public List<T> obtenerAnimalPorId(int id);
 	
-	public List <T> anadirAnimal();
+	public boolean anadirAnimal();
 	
-	public List <T> borrarAnimal(int id);
+	public void borrarAnimal(int id);
 	
-	public List <T> modificarAnimal(int id);
+	public boolean modificarAnimal(int id);
 	
 }

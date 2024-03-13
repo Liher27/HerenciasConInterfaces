@@ -4,14 +4,14 @@ import java.util.Objects;
 
 public class Reptil extends Animal{
 
-	public boolean aguaDulce = false;
+	public String aguaDulce = null;
 	public String especie = null;
 
-	public boolean isAguaDulce() {
+	public String isAguaDulce() {
 		return aguaDulce;
 	}
 
-	public void setAguaDulce(boolean aguaDulce) {
+	public void setAguaDulce(String aguaDulce) {
 		this.aguaDulce = aguaDulce;
 	}
 
