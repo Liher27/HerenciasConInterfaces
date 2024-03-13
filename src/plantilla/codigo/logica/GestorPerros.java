@@ -2,12 +2,15 @@ package plantilla.codigo.logica;
 
 import java.sql.Connection;
 import java.sql.DriverManager;
+import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.List;
 
+import bbdd.Utils;
 import plantilla.codigo.pojo.Perro;
 import plantilla.codigo.utils.DBUtils;
 
@@ -126,8 +129,47 @@ public class GestorPerros implements GestorInterfaz <Perro>{
 
 	@Override
 	public List<Perro> anadirAnimal() {
-		// TODO Auto-generated method stub
-		return null;
+		String getInputNumSeries = ;
+		String getInputMarca = ;
+		String getInputMemoria = memoria;
+		String getInputModelo = modelo;
+		String getInputFunciona = funciona;
+		
+		Connection connection = null;
+		PreparedStatement preparedStatement = null;
+
+		try {
+			Class.forName(DBUtils.DRIVER);
+
+			connection = DriverManager.getConnection(DBUtils.URL, DBUtils.USER, DBUtils.PASS);
+
+			String sql = "INSERT INTO ordenador (`NumSerie`, `marca`, `fechaCompra`, `disco`, `memoria`, `modelo`, `funcionaElOrdenador`)"
+					+ " VALUES (?,?,?,?,?,?,?);";
+			preparedStatement = connection.prepareStatement(sql);
+
+			preparedStatement = connection.prepareStatement(sql);
+			preparedStatement.setString(1, getInputNumSeries);
+			preparedStatement.setString(2, getInputMarca);
+			preparedStatement.setDate(3, sqlDate);
+			preparedStatement.setString(4, getInputDisco);
+			preparedStatement.setString(5, getInputMemoria);
+			preparedStatement.setString(6, getInputModelo);
+			preparedStatement.setString(7, getInputFunciona);
+
+			int i = preparedStatement.executeUpdate();
+
+			if (i > 0) {
+				return true;
+			}
+
+		} catch (SQLException | ClassNotFoundException throwables) {
+			throwables.printStackTrace();
+
+			DBUtils reto3Utils = new DBUtils();
+			reto3Utils.release(connection, preparedStatement, null);
+		}
+
+		return false;
 	}
 
 	@Override

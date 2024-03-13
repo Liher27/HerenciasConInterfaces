@@ -88,7 +88,7 @@ public class Menu {
 			ejecutarOpcionMenuPorId();
 			break;
 		case 4:
-			mostrarMascotasPorTipoParaModificar();
+			mostrarMascotasPorTipoParaAñadir();
 			break;
 		default:
 			System.out.println("Esta opcion no deberia salir...");
@@ -250,7 +250,7 @@ public class Menu {
 
 	// --------- OPCION 4,5 y 6 - Añadir, Borrar y modificar Animales --//
 
-	private void mostrarMascotasPorTipoParaModificar() {
+	private void mostrarMascotasPorTipoParaAñadir() {
 		int opcion = 0;
 		do {
 			opcion = opcionMenuPorTipoParaAñadir();
@@ -291,18 +291,22 @@ public class Menu {
 		case 1:
 			System.out.println("---------");
 			List<Perro> perros = gestorPerros.anadirAnimal();
+			System.out.println("Perro anadido!");
 			break;
 		case 2:
 			System.out.println("---------");
 			List<Gato> gatos = gestorGatos.anadirAnimal();
+			System.out.println("Gato anadido!");
 			break;
 		case 3:
 			System.out.println("---------");
 			List<Tortuga> tortugas = gestorTortugas.anadirAnimal();
+			System.out.println("Perro anadido!");
 			break;
 		case 4:
 			System.out.println("---------");
 			List<Cocodrilo> Cocodrilos = gestorCocodrilos.anadirAnimal();
+			System.out.println("Cocodrilo anadido!");
 			break;
 		}
 	}
